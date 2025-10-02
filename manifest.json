@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Lesson Helper",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "Get answers while you doing tasks.",
   "author": "WITHOUT_SHIT_RHERE",
   "icons": {
@@ -20,5 +20,13 @@
         
     },
     "default_popup":"main/index/index.html"
-  }
+  },
+  "permissions":["activetab"],
+  "content_scripts":[
+    {
+      "matches": ["*://naurok.com.ua/test/testing/*"],
+      "js": ["main/bg-worker/getInfo.js"],
+      "run_at": "document_idle"
+    }
+  ]
 }
