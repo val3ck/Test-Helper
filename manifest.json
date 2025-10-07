@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Lesson Helper",
+  "name": "Test Helper",
   "version": "0.0.0",
   "description": "Get answers while you doing tasks.",
   "author": "WITHOUT_SHIT_RHERE",
@@ -10,6 +10,21 @@
     "64": "icons/icon-64.png",
     "128": "icons/icon-128.png"
   },
+  
+  "permissions":["tabs","scripting","storage","activeTab"],
+  "background": {
+    "scripts": ["src/background/bg_info-correctb.js"]
+  },
+  "content_scripts":[
+    {
+      "matches": ["*://naurok.com.ua/test/testing/*"],
+      "js": ["src/utils/action/startScript.js","src/utils/ai/ai.js"]
+    },
+    {
+      "matches": ["*://naurok.com.ua/test/start/*"],
+      "js": ["src/actions/changeName.js"]
+    }
+  ],
   "action": {
     "default_title": "Tap!",
     "default_icon": {
@@ -19,14 +34,6 @@
         "128":"icons/icon-128.png"
         
     },
-    "default_popup":"main/index/index.html"
-  },
-  "permissions":["activetab"],
-  "content_scripts":[
-    {
-      "matches": ["*://naurok.com.ua/test/testing/*"],
-      "js": ["main/bg-worker/getInfo.js"],
-      "run_at": "document_idle"
-    }
-  ]
+    "default_popup":"src/browser/index.html"
+  }
 }
