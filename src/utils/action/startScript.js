@@ -3,8 +3,8 @@
 
 function getP(answers,questions,multi) { // getting paragraph
     // converting node to array to use methods as map(), then joining to make complete version
-    let answer = Array.from(answers).map(n => n.innerHTML).join(',');
-    let question = Array.from(questions).map(n => n.innerHTML).join(',');
+    let answer = Array.from(answers).map(n => n.innerHTML.replace(/\&nbsp;/g, '')).join(',');
+    let question = Array.from(questions).map(n => n.innerHTML.replace(/\&nbsp;/g, '')).join(',');
     browser.runtime.sendMessage({type:'aiAsk',data:{answers:answer,quest:question,multi:multi}})
     return 0;
 }
@@ -31,14 +31,15 @@ function start(timeout_interval=2000,values_screensh=null) {
         values_screensh = res;
     },timeout_interval)
 }
-function multi_test() {
+function multi_test(result = false) {
     document.querySelectorAll('p').forEach(element => {
         if (result) return;
         //just looking for thing that exists only with multiple answer
-        let multiple = element.parentElement.parentElement.querySelectorAll("div[class='question-checkbox-state']")
+        let multiple = element.parentElement.parentElement.querySelectorAll(".question-checkbox-state")
         multiple.forEach(obj => {if(obj) result = true; return 0;})
         
         });
+    
     return result;
 }
 
@@ -52,8 +53,7 @@ function check_ready(){
     }
 }
 async function check_status(){ // checking 
-    //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring
-    // copied declaration below from chat gpt, this is nice thing to remember // object unpacking Destructuring 
+    // object unpacking Destructuring 
     let {['start-checkbox']: ready} = await browser.storage.local.get('start-checkbox');
     if (ready) return check_ready();// make it less space
     browser.storage.onChanged.addListener((changes,area)=>{ 
@@ -62,6 +62,5 @@ async function check_status(){ // checking
         if (changes['start-checkbox']?.newValue && area == 'local') check_ready()
     })
 }
-let result = false
 check_status()
 

@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Test Helper",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Get answers while you doing tasks.",
   "author": "WITHOUT_SHIT_RHERE",
   "icons": {
@@ -13,7 +13,7 @@
   
   "permissions":["tabs","scripting","storage","activeTab"],
   "background": {
-    "scripts": ["src/background/bg_info-correctb.js"]
+    "scripts": ["src/background/bg-processing.js"]
   },
   "content_scripts":[
     {

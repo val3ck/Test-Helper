@@ -19,7 +19,7 @@ const GEMINI_CONFIG = {
     name: 'Google Gemini',
     apiUrl: 'https://generativelanguage.googleapis.com/v1beta',
     apiKeys: [
-        
+        'ur apis'
     ],
     currentKeyIndex: 0,
     maxRetries: 3
@@ -52,12 +52,13 @@ async function callGeminiApi(prompt, retryCount = 0) {
                         {
                             text: // cheith, idk how this prompt works, it was generated with ai. Don't ask
                             `
-                                You are given the following question: ${prompt.quest}.
-                                You are also given the example answers: ${prompt.answers}.
-                                Your task is to give your answer exactly in the same text format as the example answers —
-                                copy the same structure, symbols, punctuation, tags, and style used there.
-                                Do not explain, do not add or remove anything, just output the answer in the exact same way as in the provided examples.
-                                ${prompt.multi == true ? 'If there are several correct answers, write them separated by commas exactly as shown in the examples.' : ''}
+                                Got it — I kept that exact ternary unchanged. Here’s the prompt in English:
+                                You are given the following question: ${prompt.quest}. You are also given the example answers: ${prompt.answers}. Your task is to give your answer exactly in the same text format as the example answers — copy the same structure, symbols, punctuation, tags, and style used there. Do not explain, do not add or remove anything, just output the answer in the exact same way as in the provided examples. ${prompt.multi == true ? 'If there are several correct answers, write them separated by commas exactly as shown in the examples.' : 'Answer can be only one.'}
+                                Additional rules:
+                                Select answer(s) only from the string ${prompt.answers}.
+                                When deciding which answer(s) are correct, ignore HTML tags (HTML should not affect the decision), but in the output include HTML tags verbatim exactly as they appear in ${prompt.answers}.
+                                Output must be exactly one line containing the answer(s) and nothing else: no explanations, no quotes, no comments, no extra whitespace or line breaks.
+                                If the ternary above indicates multiple answers, output them in one line separated by commas, preserving the exact characters, order, spaces, case, punctuation, and HTML tags from ${prompt.answers}. If it indicates a single answer, output exactly one from ${prompt.answers}.
                             `
                     }
                    ]
@@ -66,6 +67,7 @@ async function callGeminiApi(prompt, retryCount = 0) {
         });
         if (response.ok) {
             const data = await response.json();
+            
             return data.candidates[0].content.parts[0].text;
         } else if (response.status === 403 || response.status === 429) {
             // API key quota exceeded or forbidden, try next key
