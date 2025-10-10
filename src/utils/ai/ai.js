@@ -19,7 +19,7 @@ const GEMINI_CONFIG = {
     name: 'Google Gemini',
     apiUrl: 'https://generativelanguage.googleapis.com/v1beta',
     apiKeys: [
-        'ur apis'
+        
     ],
     currentKeyIndex: 0,
     maxRetries: 3
@@ -51,19 +51,16 @@ async function callGeminiApi(prompt, retryCount = 0) {
                     parts: [
                         {
                             text: // cheith, idk how this prompt works, it was generated with ai. Don't ask
-                            `
-                                Got it — I kept that exact ternary unchanged. Here’s the prompt in English:
-                                You are given the following question: ${prompt.quest}. You are also given the example answers: ${prompt.answers}. Your task is to give your answer exactly in the same text format as the example answers — copy the same structure, symbols, punctuation, tags, and style used there. Do not explain, do not add or remove anything, just output the answer in the exact same way as in the provided examples. ${prompt.multi == true ? 'If there are several correct answers, write them separated by commas exactly as shown in the examples.' : 'Answer can be only one.'}
-                                Additional rules:
-                                Select answer(s) only from the string ${prompt.answers}.
-                                When deciding which answer(s) are correct, ignore HTML tags (HTML should not affect the decision), but in the output include HTML tags verbatim exactly as they appear in ${prompt.answers}.
-                                Output must be exactly one line containing the answer(s) and nothing else: no explanations, no quotes, no comments, no extra whitespace or line breaks.
-                                If the ternary above indicates multiple answers, output them in one line separated by commas, preserving the exact characters, order, spaces, case, punctuation, and HTML tags from ${prompt.answers}. If it indicates a single answer, output exactly one from ${prompt.answers}.
+                           `
+                            You are given the following question: ${prompt.quest}.
+                            You are given the example answers: ${prompt.answers}.
+                            ${prompt.multi ? 'This task may have multiple correct answers (multiple possible).' : 'This task has exactly one correct answer (100% 1 option).'}
+                            Your task is to give your answer exactly in the same text format as the example answers — copy the same structure, symbols, punctuation, tags, and style used there. Do not explain, do not add or remove anything, just output the answer in the exact same way as in the provided examples. Select answer(s) only from the string ${prompt.answers}. When deciding which answer(s) are correct, ignore HTML tags (HTML should not affect the decision), but in the output include HTML tags exactly as they appear in ${prompt.answers}. Output must be exactly one line containing the answer(s) and nothing else: no explanations, no quotes, no comments, no extra whitespace or line breaks. If multiple answers are required, list them in one line separated by commas, preserving the exact characters, order, spaces, case, punctuation, and HTML tags from ${prompt.answers}. If only one answer is required, output exactly one single answer from ${prompt.answers}.
                             `
                     }
                    ]
                 }]
-            })
+            })        
         });
         if (response.ok) {
             const data = await response.json();
@@ -92,12 +89,13 @@ async function callGeminiApi(prompt, retryCount = 0) {
     }
 }
 // catching message
-browser.runtime.onMessage.addListener((msg)=>{
+browser.runtime.onMessage.addListener((msg,sender,msgReponse)=>{
     if (msg.type == 'aiAsk'){
-        let result = callGeminiApi(msg.data)
-        console.log(msg.data)
-        result.then(response => {
-            console.log(response)
+        callGeminiApi(msg.data)
+        .then(result=>{
+            browser.runtime.sendMessage({type:'processAiAnswer',data:{multi:msg.data.multi,reply:result}})
+            console.log('Answer:',result)
         })
+        
     }
 })

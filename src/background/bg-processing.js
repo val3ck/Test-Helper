@@ -1,11 +1,14 @@
 // background, using to transfer data \._./
-browser.runtime.onMessage.addListener(async (msg,sender,sendresponse)=>{
+browser.runtime.onMessage.addListener((msg,sender,sendresponse)=>{
     if (msg.type === "aiAsk"){
-        const response = await browser.tabs.sendMessage(sender.tab.id,{type:'aiAsk',data:msg.data})
-        
-        let {['button-autoclick']:button} = await browser.storage.local.get('button-autoclick')
-        
-        if (button){
-            browser.tabs.sendMessage(sender.tabs.id,{type:'clickButton',data:response})
-        }
-}})
+        //add api call to a db
+        browser.tabs.sendMessage(sender.tab.id,{type:'aiAsk',data:msg.data})
+    }
+    if (msg.type == 'processAiAnswer'){
+        browser.storage.local.get('button-autoclick')
+        .then(btn => {
+            if (btn){ browser.tabs.sendMessage(sender.tab.id,{multi:msg.data.multi,clickType:'manual',type:'clickButton',msg:msg.data.reply})}
+        })
+    }    
+       
+})

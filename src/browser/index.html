@@ -12,17 +12,31 @@
     </style>
     <title>Options</title>
 </head>
-<body>
+<body style="background-image: url('photo_2025-10-09_19-07-40.jpg');
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center center;">
     <h1>Start</h1>
-
     <div>
         <input type="checkbox" id="start-checkbox" value="1">
-        <label for="start-checkbox">Увімкнути додаток, під час тесту неможна змінювати значення на ні</label> <!-- Якщо дати таку можливість, то можно буде спамить і тратить лишній раз токени -->
+        <label for="start-checkbox">Увімкнути додаток, під час тесту неможна змінювати значення на ні.</label> <!-- Якщо дати таку можливість, то можно буде спамить і тратить лишній раз токени -->
     </div>
     <div>
-        <input type="checkbox" name="buttonCheck" id="button-autoclick">
-        <label for="button-autoclick">Натисність якщо бажаєте щоб тест автоматично проходився при знаходження відповідді</label>
+        <p>Спосіб проходження тестів:</p>
+        <select name="nothing" id="button-autoclick">
+            <option value="none">Ніяк</option>
+            <option value="auto">Автоматичне проходження</option>
+            <option value="manual">При натисканні</option>
+        </select>
+        <p>Якщо ви оберете "Автоматичне проходження", кнопка буде автоматично натиснута при знаходженні відповіді.</p>
+        <p>Якщо ви оберете "При натисканні", вам прийдеться натискати на поле де знаходиться запитання, на поле <strong>не можна</strong> натиснути доки відповідь не буде знайдено.</p>
+        <div>
+            <input type="input" placeholder="Впишіть тему вашого тесту (Це допоможе ШІ)" style="width: auto;" id="helpInput">
+            <input type="button" value="Підтвердити зміни" id="buttonAccept">
+            <input type="button" value="Скинути зміни" id="buttonClear">
+        </div>
     </div>
+    <p style="font-size: 12px; opacity: 20%;">Додаток не гарантує вам 100% правильність відповідей</p>
     <!-- script -->
     <script src="./scripts/script.js"></script>
 </body>

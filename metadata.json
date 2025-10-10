@@ -1,0 +1,8 @@
+{
+  "version": { "license": "MPL-2.0" },
+  "categories": { "firefox": ["other"] },
+  "requires_payment": false,
+  "support_email": {
+    "en-US": "dontknowwatisdet@gmail.com"
+  }
+}

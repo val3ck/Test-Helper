@@ -1,7 +1,8 @@
 {
   "manifest_version": 3,
   "name": "Test Helper",
-  "version": "0.0.1",
+  "version": "0.0.13",
+
   "description": "Get answers while you doing tasks.",
   "author": "WITHOUT_SHIT_RHERE",
   "icons": {
@@ -17,11 +18,11 @@
   },
   "content_scripts":[
     {
-      "matches": ["*://naurok.com.ua/test/testing/*"],
-      "js": ["src/utils/action/startScript.js","src/utils/ai/ai.js"]
+      "matches": ["*://naurok.com.ua/test/testing/*","*://naurok.ua/test/testing/*","*://naurok.com.ua/test/realtime-client/*","*://naurok.ua/test/realtime-client/*"],
+      "js": ["src/utils/action/startScript.js","src/utils/ai/ai.js","src/utils/action/pressRightButton.js"]
     },
     {
-      "matches": ["*://naurok.com.ua/test/start/*"],
+      "matches": ["*://naurok.com.ua/test/start/*","*://naurok.ua/test/start/*"],
       "js": ["src/actions/changeName.js"]
     }
   ],
@@ -35,5 +36,16 @@
         
     },
     "default_popup":"src/browser/index.html"
-  }
+  },
+  "browser_specific_settings": {
+     "gecko": {
+       "id": "@val3ck.TestHelper",
+       "strict_min_version": "120.0"
+     },
+     "gecko-android": {
+       "id": "@val3ck.TestHelper",
+       "strict_min_version": "120.0"
+     }
+   }
+
 }
