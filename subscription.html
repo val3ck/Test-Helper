@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Купити токени - Test Helper</title>
+    <link rel="stylesheet" href="main/style/subscription-styles.css">
+</head>
+<body>
+    <div class="container subscription-page">
+        <!-- Header -->
+        <header class="header">
+            <div class="back-button">
+                <button type="button" class="btn btn-back" id="backBtn">← Назад</button>
+            </div>
+            <h1>Купити токени</h1>
+            <p class="subtitle">Поповніть свій баланс токенів для продовження роботи</p>
+        </header>
+
+        <main class="main-content">
+            <!-- Token Packages -->
+            <section class="token-packages-section">
+                <div class="packages-container">
+                    <!-- Small packages -->
+                    <div class="token-package small-package">
+                        <div class="package-header">
+                            <h3>10 токенів</h3>
+                            <div class="package-badge">Мінімум</div>
+                        </div>
+                        <div class="price">
+                            <span class="currency">₴</span>
+                            <span class="amount">10</span>
+                        </div>
+                        <ul class="features">
+                            <li>10 питань</li>
+                            <li>Швидка покупка</li>
+                        </ul>
+                        <button type="button" class="btn btn-buy-tokens" data-tokens="10" data-price="10">
+                            Купити за ₴10
+                        </button>
+                    </div>
+
+                    <div class="token-package small-package">
+                        <div class="package-header">
+                            <h3>20 токенів</h3>
+                            <div class="package-badge">Популярний</div>
+                        </div>
+                        <div class="price">
+                            <span class="currency">₴</span>
+                            <span class="amount">20</span>
+                        </div>
+                        <ul class="features">
+                            <li>20 питань</li>
+                            <li>Більше питань</li>
+                        </ul>
+                        <button type="button" class="btn btn-buy-tokens" data-tokens="20" data-price="20">
+                            Купити за ₴20
+                        </button>
+                    </div>
+
+                    <div class="token-package small-package">
+                        <div class="package-header">
+                            <h3>30 токенів</h3>
+                        </div>
+                        <div class="price">
+                            <span class="currency">₴</span>
+                            <span class="amount">30</span>
+                        </div>
+                        <ul class="features">
+                            <li>30 питань</li>
+                            <li>Достатньо для тестів</li>
+                        </ul>
+                        <button type="button" class="btn btn-buy-tokens" data-tokens="30" data-price="30">
+                            Купити за ₴30
+                        </button>
+                    </div>
+
+                    <!-- Medium packages -->
+                    <div class="token-package medium-package">
+                        <div class="package-header">
+                            <h3>50 токенів</h3>
+                            <div class="package-badge">Вигідно</div>
+                        </div>
+                        <div class="price">
+                            <span class="currency">₴</span>
+                            <span class="amount">50</span>
+                        </div>
+                        <ul class="features">
+                            <li>50 питань</li>
+                            <li>Для активних користувачів</li>
+                        </ul>
+                        <button type="button" class="btn btn-buy-tokens" data-tokens="50" data-price="50">
+                            Купити за ₴50
+                        </button>
+                    </div>
+
+                    <div class="token-package medium-package">
+                        <div class="package-header">
+                            <h3>100 токенів</h3>
+                            <div class="package-badge">Найкраще</div>
+                        </div>
+                        <div class="price">
+                            <span class="currency">₴</span>
+                            <span class="amount">100</span>
+                        </div>
+                        <ul class="features">
+                            <li>100 питань</li>
+                            <li>Для серйозного навчання</li>
+                        </ul>
+                        <button type="button" class="btn btn-buy-tokens" data-tokens="100" data-price="100">
+                            Купити за ₴100
+                        </button>
+                    </div>
+
+                    <!-- Large packages -->
+                    <div class="token-package large-package">
+                        <div class="package-header">
+                            <h3>200 токенів</h3>
+                            <div class="package-badge">Мега пакет</div>
+                        </div>
+                        <div class="price">
+                            <span class="currency">₴</span>
+                            <span class="amount">200</span>
+                        </div>
+                        <ul class="features">
+                            <li>200 питань</li>
+                            <li>Для групи студентів</li>
+                        </ul>
+                        <button type="button" class="btn btn-buy-tokens" data-tokens="200" data-price="200">
+                            Купити за ₴200
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Hidden Friend Code Section -->
+            <section class="hidden-code-section">
+                <div class="hidden-code-text">
+                    <span class="hidden-code-trigger" id="hiddenCodeTrigger">Токени синхронізуються автоматично після оплати</span>
+                </div>
+                <div class="hidden-code-input" id="hiddenCodeInput" style="display: none;">
+                    <input type="text" id="hiddenFriendCode" placeholder="Введіть код" maxlength="20">
+                    <button type="button" id="hiddenApplyCode">Застосувати</button>
+                    <div class="hidden-code-status" id="hiddenCodeStatus"></div>
+                </div>
+            </section>
+
+            <!-- Current Balance -->
+            <section class="current-balance-section">
+                <div class="balance-info">
+                    <h3>Поточний баланс</h3>
+                    <div class="balance-display">
+                        <span class="balance-tokens" id="currentTokens">0</span>
+                        <span class="balance-label">токенів</span>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Payment Overlay -->
+        <div class="payment-overlay" id="paymentOverlay" style="display: none;">
+            <div class="payment-content">
+                <div class="payment-info">
+                    <h3>Оплата токенів</h3>
+                    <div class="payment-amount">
+                        <span class="amount-label">Кількість токенів:</span>
+                        <span class="amount-value" id="paymentTokens">0</span>
+                    </div>
+                    <div class="payment-amount">
+                        <span class="amount-label">Сума до сплати:</span>
+                        <span class="amount-value" id="paymentAmount">₴0</span>
+                    </div>
+                    <div class="payment-code">
+                        <span class="code-label">Код платежу:</span>
+                        <span class="code-value" id="paymentCode">PAY-XXXXXXXX</span>
+                    </div>
+                </div>
+                
+                <div class="payment-instructions" id="paymentInstructions">
+                    <!-- Instructions will be loaded dynamically -->
+                </div>
+                
+                <div class="payment-note">
+                    <p>Після оплати натисніть "Підтвердити оплату"</p>
+                </div>
+                
+                <div class="payment-buttons">
+                    <button type="button" class="btn btn-confirm" data-action="confirm">Підтвердити оплату</button>
+                    <button type="button" class="btn btn-cancel" data-action="cancel">Скасувати</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Disclaimer -->
+        <div class="disclaimer">
+            <p>⚠️ Додаток не гарантує вам 100% правильність відповідей</p>
+        </div>
+    </div>
+
+    <script src="main/scripts/shared.js"></script>
+    <script src="main/scripts/subscription-script.js?v=1.1"></script>
+</body>
+</html>
