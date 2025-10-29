@@ -19,9 +19,7 @@ const GEMINI_CONFIG = {
     name: 'Google Gemini',
     apiUrl: 'https://generativelanguage.googleapis.com/v1beta',
     apiKeys: [
-        'AIzaSyBWACM2qPWa9ax46igO8VfEvSnhJwodb8',
-        'AIzaSyC8sSuk3xtJkT5XWfPT5V8iI33ivRmwTTk',
-        'AIzaSyA3EgkMcJ1bgH7X9Iv_rtUE156FbkYzycE',
+        
         
     ],
     currentKeyIndex: 0,
