@@ -27,8 +27,11 @@ function parse(callback,screenshot){ // callback calls func when it's ready
 // starting => doing with intervals // Can be also done with mutationobserver, which is probb better
 function start(timeout_interval=2000,values_screensh=null) {
     setInterval(()=>{
-        let res = parse(getP,values_screensh);
-        values_screensh = res;
+        browser.storage.local.get('start-checkbox').then(el=>{
+            
+            let res = parse(getP,values_screensh);
+            values_screensh = res;
+        })
     },timeout_interval)
 }
 function multi_test(result = false) {
@@ -56,11 +59,12 @@ async function check_status(){ // checking
     // object unpacking Destructuring 
     let {['start-checkbox']: ready} = await browser.storage.local.get('start-checkbox');
     if (ready) return check_ready();// make it less space
-    browser.storage.onChanged.addListener((changes,area)=>{ 
-    // adding event listener to watch when our value change itself
-        // ?. preventing error which could be if .newValue is undefined
-        if (changes['start-checkbox']?.newValue && area == 'local') check_ready()
-    })
+    // browser.storage.onChanged.addListener((changes,area)=>{ 
+    // // adding event listener to watch when our value change itself
+    //     // ?. preventing error which could be if .newValue is undefined
+    //     console.log(changes['start-checkbox'])
+    //     if (changes['start-checkbox']?.newValue && area == 'local') check_ready()
+    // }) removed to remove bug
 }
 
 check_status()

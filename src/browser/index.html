@@ -7,7 +7,19 @@
         div{
             display: block;
             align-items: center;
-            gap: 5px;
+            
+        }
+        body{
+            color: white;
+            -webkit-text-stroke: .3px black;
+            font-weight: bolder;
+        }
+        p,label{
+            background-color: rgba(0, 0, 0, 0.7);
+            /* opacity: 50%; */
+            border-radius: 4px;
+            font-size: larger;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
         }
     </style>
     <title>Options</title>
@@ -19,7 +31,7 @@
     <h1>Start</h1>
     <div>
         <input type="checkbox" id="start-checkbox" value="1">
-        <label for="start-checkbox">Увімкнути додаток, під час тесту неможна змінювати значення на ні.</label> <!-- Якщо дати таку можливість, то можно буде спамить і тратить лишній раз токени -->
+        <label for="start-checkbox">Увімкнути додаток.</label> <!-- Якщо дати таку можливість, то можно буде спамить і тратить лишній раз токени -->
     </div>
     <div>
         <p>Спосіб проходження тестів:</p>
@@ -29,15 +41,32 @@
             <option value="manual">При натисканні</option>
         </select>
         <p>Якщо ви оберете "Автоматичне проходження", кнопка буде автоматично натиснута при знаходженні відповіді.</p>
-        <p>Якщо ви оберете "При натисканні", вам прийдеться натискати на поле де знаходиться запитання, на поле <strong>не можна</strong> натиснути доки відповідь не буде знайдено.</p>
+        <p>Якщо ви оберете "При натисканні", вам прийдеться натискати на поле де знаходиться запитання. На поле <strong>не можна</strong> натиснути доки відповідь не буде знайдено.</p>
+        <select name="nothing" id="button-highlight">
+            <option value="none">Ніяк</option>
+            <option value="manual-highlight">Підсвічувати відповідь</option>
+            <option value="hidden-highlight">Підсвічувати першу букву</option>
+        </select>
+        <p>Якщо ви оберете "Підсвічувати відповідь", правильна відповідь буде явно підсвічуватись.</p>
+        <p>Якщо ви оберете "Підсвічувати першу букву", перша буква правильної відповіді буде позначена жирним шрифтом.</p>
+        
+
+        <p>Experimental functions:</p>
+        <select name="nothing" id="version_proposed">
+            <option value="pro">pro (10-20s)</option>
+            <option value="flash">flash (5-10s)</option>
+            <option value="flash-lite">flash-lite (1-2s~)</option>
+        </select>
         <div>
-            <input type="input" placeholder="Впишіть тему вашого тесту (Це допоможе ШІ)" style="width: auto;" id="helpInput">
+            <input type="input" placeholder="Впишіть тему вашого тесту (Це допоможе ШІ дати кращу відповідь)" style="width: 50em;" id="helpInput">
             <input type="button" value="Підтвердити зміни" id="buttonAccept">
             <input type="button" value="Скинути зміни" id="buttonClear">
         </div>
     </div>
-    <p style="font-size: 12px; opacity: 20%;">Додаток не гарантує вам 100% правильність відповідей</p>
-    <!-- script -->
+    <p>Щоб застосувати зміни перезавантажте сторінку з тестом.(Якщо ви вже на ньому)</p>
+    <!-- <input type="button" onclick="window.location.restart()" id="restart_butt" value="Застосувати зміни" style="width: 100%;"> -->
+    <p style="font-size: 12px; opacity: 40%; background-color: rgba(0, 0, 0, 0.0);">Додаток не гарантує вам 100% правильність відповідей</p>
+    <!-- script -> here -->
     <script src="./scripts/script.js"></script>
 </body>
 </html>

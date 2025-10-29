@@ -1,11 +1,12 @@
 
 browser.runtime.onMessage.addListener(async (msg)=> {
-    if (msg.type == 'clickButton'){// lf a clickbutton msg type
+    if (msg.type == 'button-autoclick'){// lf a clickbutton msg type
         let rightAnswer = null;
-        let listOfAnswers = [null]
+        let listOfAnswers = [null] // preparing our values
         let answer = msg.msg
         let multi = msg.multi
-        let {"typeOfClicking":typeclick} = await browser.storage.local.get('typeOfClicking')
+        let typeclick = msg.add_type // looking at type of click(auto manual etc)
+        console.log('Button is ready to click!')
         document.querySelectorAll('.test-options-grid p').forEach(p=>{
             let text = p.outerHTML.replace(/\&nbsp;/g, '')
             if (text == answer && !multi) {rightAnswer = p.offsetParent;}
@@ -27,10 +28,12 @@ browser.runtime.onMessage.addListener(async (msg)=> {
             if (multi){
                 for (let answer=listOfAnswers.length-1; answer>0;answer--){
                     listOfAnswers[answer].click()
+                    
                     console.log(listOfAnswers,answer==1,typeof(answer))
                     if (answer == 1){
                         document.querySelector(`.test-multiquiz-save-button`).click()
                     }
+                    
                 }
             }  
             else rightAnswer.click()

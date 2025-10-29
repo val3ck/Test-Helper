@@ -19,6 +19,9 @@ const GEMINI_CONFIG = {
     name: 'Google Gemini',
     apiUrl: 'https://generativelanguage.googleapis.com/v1beta',
     apiKeys: [
+        'AIzaSyBWACM2qPWa9ax46igO8VfEvSnhJwodb8',
+        'AIzaSyC8sSuk3xtJkT5XWfPT5V8iI33ivRmwTTk',
+        'AIzaSyA3EgkMcJ1bgH7X9Iv_rtUE156FbkYzycE',
         
     ],
     currentKeyIndex: 0,
@@ -40,7 +43,10 @@ function rotateApiKey() {
 async function callGeminiApi(prompt, retryCount = 0) {
     try {
         const apiKey = getCurrentApiKey();
-        const response = await fetch(`${GEMINI_CONFIG.apiUrl}/models/gemini-2.5-pro:generateContent?key=${apiKey}`, {
+        let {"version_proposed":version} = await browser.storage.local.get('version_proposed')
+        console.log(version)
+        // let {"version_proposed":theme} = await browser.storage.local.get('version_proposed')
+        const response = await fetch(`${GEMINI_CONFIG.apiUrl}/models/gemini-2.5-${(version)?version:'pro'}:generateContent?key=${apiKey}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

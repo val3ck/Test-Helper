@@ -4,7 +4,7 @@
   "version": "0.0.13",
 
   "description": "Get answers while you doing tasks.",
-  "author": "WITHOUT_SHIT_RHERE",
+  "author": "Entusiasts from Licey №1",
   "icons": {
     "16": "icons/icon-16.png",
     "32": "icons/icon-32.png",
@@ -19,7 +19,7 @@
   "content_scripts":[
     {
       "matches": ["*://naurok.com.ua/test/testing/*","*://naurok.ua/test/testing/*","*://naurok.com.ua/test/realtime-client/*","*://naurok.ua/test/realtime-client/*"],
-      "js": ["src/utils/action/startScript.js","src/utils/ai/ai.js","src/utils/action/pressRightButton.js"]
+      "js": ["src/utils/action/startScript.js","src/utils/ai/ai.js","src/utils/action/pressAnswer.js","src/utils/action/highlightAnswer.js"]
     },
     {
       "matches": ["*://naurok.com.ua/test/start/*","*://naurok.ua/test/start/*"],

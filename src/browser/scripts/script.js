@@ -13,13 +13,17 @@ document.querySelectorAll("input[type='checkbox']").forEach(checkbx => {
 });
 let options = document.querySelectorAll('select') 
     .forEach(result=>{
-        browser.storage.local.get('typeOfClicking') //the same
+        let id = result.id
+        let res_val = result.value;
+        browser.storage.local.get(id) //the same
             .then(response=>{
-                if (response == undefined) result.value = 'none';
-                result.value = response.typeOfClicking
+                res_val = 'none'
+                if (response[id]) res_val = response[id];
+                result.value = res_val
+                console.log(res_val)
                 result.addEventListener('change',()=>{
-                    browser.storage.local.set({typeOfClicking:result.value})
-                    console.log(result.value)
+                    res_val = result.value
+                    browser.storage.local.set({[id]:res_val})
                 })
             })
 })
@@ -27,7 +31,7 @@ let options = document.querySelectorAll('select')
 // saving topic
 browser.storage.local.get('topicForAI').then(elem=>{
     let helpinp = document.getElementById("helpInput")
-    if (elem['topicForAI'] == undefined) helpinp.value = ''  
+    if (elem['topicForAI'] == undefined) {helpinp.value = '' ; return}
     helpinp.value = elem['topicForAI'];
 })
 //clearing button (reset to the last save)
