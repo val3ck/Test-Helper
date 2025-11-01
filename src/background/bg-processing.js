@@ -12,7 +12,11 @@ browser.runtime.onMessage.addListener((msg,sender,sendresponse)=>{
             .then(btn => {
 
                 console.log(btn[elem])
-                if (btn[elem] && btn[elem] != 'none'){ browser.tabs.sendMessage(sender.tab.id,{multi:msg.data.multi,type:elem,add_type:btn[elem],msg:msg.data.reply})}
+                if (btn[elem] && btn[elem] != 'none'){ 
+                    browser.tabs.sendMessage(sender.tab.id,{
+                        multi:msg.data.multi,type:elem,add_type:btn[elem],msg:msg.data.reply
+                    }
+                )}
             })
         }) 
     }

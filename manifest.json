@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Test Helper",
-  "version": "0.0.13",
+  "version": "0.1.0",
 
   "description": "Get answers while you doing tasks.",
   "author": "Entusiasts from Licey №1",
@@ -18,7 +18,7 @@
   },
   "content_scripts":[
     {
-      "matches": ["*://naurok.com.ua/test/testing/*","*://naurok.ua/test/testing/*","*://naurok.com.ua/test/realtime-client/*","*://naurok.ua/test/realtime-client/*"],
+      "matches": ["*://naurok.com.ua/test/testing/*","*://naurok.ua/test/testing/*","*://naurok.com.ua/test/realtime-client/*","*://naurok.ua/test/realtime-client/*","*://vseosvita.ua/test/*"],
       "js": ["src/utils/action/startScript.js","src/utils/ai/ai.js","src/utils/action/pressAnswer.js","src/utils/action/highlightAnswer.js"]
     },
     {
@@ -27,7 +27,7 @@
     }
   ],
   "action": {
-    "default_title": "Tap!",
+    "default_title": "Відкрити меню налаштувань",
     "default_icon": {
         "16":"icons/icon-16.png",
         "32":"icons/icon-32.png",

@@ -1,43 +1,52 @@
 
 browser.runtime.onMessage.addListener(async (msg)=> {
     if (msg.type == 'button-autoclick'){// lf a clickbutton msg type
-        let rightAnswer = null;
-        let listOfAnswers = [null] // preparing our values
         let answer = msg.msg
-        let multi = msg.multi
         let typeclick = msg.add_type // looking at type of click(auto manual etc)
+        const opt = {
+            default:{
+                el: ".test-content-text",
+                qselector: ".test-options-grid p",
+                savebutt: ".test-multiquiz-save-button"
+            },
+            "vseosvita.ua":{
+                el: ".v-test-questions-title",
+                qselector: ".flex-row-test p",
+                savebutt: ".n-go-body-btn-col"
+            }
+            //more sites
+        } 
+        const selectors = opt[window.location.host] || opt.default
+        let el = document.querySelector(selectors.el)
+        let qselector = document.querySelectorAll(selectors.qselector)
+        let savebutt = document.querySelector(selectors.savebutt)
+
         console.log('Button is ready to click!')
-        document.querySelectorAll('.test-options-grid p').forEach(p=>{
-            let text = p.outerHTML.replace(/\&nbsp;/g, '')
-            if (text == answer && !multi) {rightAnswer = p.offsetParent;}
-            if (answer.includes(text) && multi) listOfAnswers.push(p.offsetParent); 
-        })
-        let el = document.querySelector('.test-content-text')
+        //CHANGED LOGIC TO MORE OPTIMIZED VERSION
+        const listOfAnswers = Array.from(qselector).filter(
+            p=>answer.includes(
+                p.outerHTML.replace(/\&nbsp;/g, '')
+            )
+        )
         if (typeclick=='manual'){ // if type click is on manual setting
             el.addEventListener('click',function clickEven(){
-                if (multi && listOfAnswers.length > 1){
-                    rightAnswer = listOfAnswers[listOfAnswers.length-1]
-                    listOfAnswers.pop()
-                }  
-                (rightAnswer) ? rightAnswer.click() : el.removeEventListener('click', clickEven)
-                rightAnswer = null
+                listOfAnswers.some(p=> // Holy yea, that worse 5k grn per year!
+                {
+                    p.click() 
+                    listOfAnswers.splice(0,1)
+                    return true
+                }
+
+                )
             })
         }
         else if (typeclick=='auto'){
-            console.log(listOfAnswers.length)
-            if (multi){
-                for (let answer=listOfAnswers.length-1; answer>0;answer--){
-                    listOfAnswers[answer].click()
-                    
-                    console.log(listOfAnswers,answer==1,typeof(answer))
-                    if (answer == 1){
-                        document.querySelector(`.test-multiquiz-save-button`).click()
-                    }
-                    
+            listOfAnswers.forEach(p=> // Holy yea, that worse 5k grn per year!
+                {
+                    p.click()
                 }
-            }  
-            else rightAnswer.click()
-            
+            )
+            savebutt.click()
         }
     }  
 })

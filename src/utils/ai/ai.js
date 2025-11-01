@@ -57,10 +57,13 @@ async function callGeminiApi(prompt, retryCount = 0) {
                             text: // cheith, idk how this prompt works, it was generated with ai. Don't ask
                            `
                             You are given the following question: ${prompt.quest}.
-                            You are given the example answers: ${prompt.answers}.
-                            ${prompt.multi ? 'This task may have multiple correct answers (multiple possible).' : 'This task has exactly one correct answer (100% 1 option).'}
-                            Your task is to give your answer exactly in the same text format as the example answers — copy the same structure, symbols, punctuation, tags, and style used there. Do not explain, do not add or remove anything, just output the answer in the exact same way as in the provided examples. Select answer(s) only from the string ${prompt.answers}. When deciding which answer(s) are correct, ignore HTML tags (HTML should not affect the decision), but in the output include HTML tags exactly as they appear in ${prompt.answers}. Output must be exactly one line containing the answer(s) and nothing else: no explanations, no quotes, no comments, no extra whitespace or line breaks. If multiple answers are required, list them in one line separated by commas, preserving the exact characters, order, spaces, case, punctuation, and HTML tags from ${prompt.answers}. If only one answer is required, output exactly one single answer from ${prompt.answers}.
-                            `
+                            ${prompt.type !== 'input' ? `You are given the example answers: ${prompt.answers}.` : '' }
+                            ${prompt.type === 'checkbox' ? 'This task may have multiple correct answers (multiple possible).' : prompt.type === 'radioblock' ? 'This task has exactly one correct answer (100% 1 option).' : prompt.type === 'input' ? 'This task requires writing the answer (no options are given).' : '' }
+                            Your task is to give your answer exactly in the same text format as the example answers — copy the same structure, symbols, punctuation, tags, and style used there. Do not explain, do not add or remove anything; just output the answer in the exact same way as in the provided examples. ${prompt.type !== 'input' ? `Select answer(s) only from the string ${prompt.answers}.` : '' } When deciding which answer(s) are correct, ignore HTML tags (HTML should not affect the decision), but in the output include HTML tags exactly as they appear in ${prompt.answers}. Output must be exactly one line containing the answer(s) and nothing else — no explanations, no quotes, no comments, no extra whitespace or line breaks. If multiple answers are required, list them in one line separated by commas, preserving the exact characters, order, spaces, case, punctuation, and HTML tags from ${prompt.answers}. If only one answer is required, output exactly one single answer${prompt.type !== 'input' ? ' from ${prompt.answers}' : ''}.
+
+
+ 
+                           `
                     }
                    ]
                 }]
@@ -95,9 +98,10 @@ async function callGeminiApi(prompt, retryCount = 0) {
 // catching message
 browser.runtime.onMessage.addListener((msg,sender,msgReponse)=>{
     if (msg.type == 'aiAsk'){
+        console.log(msg.data)
         callGeminiApi(msg.data)
         .then(result=>{
-            browser.runtime.sendMessage({type:'processAiAnswer',data:{multi:msg.data.multi,reply:result}})
+            browser.runtime.sendMessage({type:'processAiAnswer',data:{multi:msg.data.type,reply:result}})
             console.log('Answer:',result)
         })
         

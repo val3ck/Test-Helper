@@ -21,7 +21,7 @@ browser.runtime.onMessage.addListener(async (msg)=> {
                     element.style.animation = 'pulse 1.4s ease-in-out infinite';
                     element.parentElement.classList.add('rightAnswer');
                     document.addEventListener('click',function clickRemEvent(){
-                            element.parentElement.classList.remove('rightAnswer')
+                            element.parentElement?.classList.remove('rightAnswer')
                             element.style.animation = 'none';
                             element.style.background = lastColor
                             element.removeEventListener('click',clickRemEvent);

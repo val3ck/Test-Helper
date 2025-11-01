@@ -47,3 +47,31 @@ document.getElementById("buttonClear").addEventListener('click',()=>{
 document.getElementById("buttonAccept").addEventListener('click',()=>{
     browser.storage.local.set({topicForAI:document.getElementById("helpInput").value})
 })
+
+function applyBackground(value){
+    let body = document.querySelector('body');
+    body.style.background = 'var(--bg-main)';   
+    body.style.color = '#1e1f20'
+    body.style.fontFamily = "'Segoe UI', sans-serif";
+    body.style.margin = "0";
+    body.style.padding = "2em";
+    body.style.lineHeight = "1.6";
+    body.style.animation = "fadeIn 0.8s ease";
+    if (value){
+        body.style.backgroundImage = "url('photo_2025-10-09_19-07-40.jpg')";
+        body.style.backgroundRepeat = 'no-repeat';
+        body.style.backgroundSize = 'cover';
+        body.style.backgroundPosition = 'center center';
+    }
+}
+
+browser.storage.local.get('bendy')
+    .then(resp=>{
+        applyBackground(resp['bendy'])
+    })
+    .finally(()=>{
+        browser.storage.onChanged.addListener((changes,area)=>{
+            applyBackground(changes['bendy'].newValue)
+        })
+})
+    
