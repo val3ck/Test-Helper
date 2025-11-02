@@ -1,7 +1,22 @@
 // background, using to transfer data \._./
+
 browser.runtime.onMessage.addListener((msg,sender,sendresponse)=>{
+    const current_opt = { // opt->options \\ Parameters for classes of various sites
+            "naurok":{
+                el: ".test-content-text",
+                qselector: ".test-options-grid p",
+                savebutt: ".test-multiquiz-save-button"
+            },
+            "vseosvita.ua":{
+                el: ".v-test-questions-title",
+                qselector: ".flex-row-test p",
+                savebutt: ".n-go-body-btn-col"
+            }
+            //more sites
+        }     
     if (msg.type == "aiAsk"){
         //add api call to a db
+        
         browser.tabs.sendMessage(sender.tab.id,{type:'aiAsk',data:msg.data})
     }
     else if (msg.type=='processAiAnswer'){
@@ -14,7 +29,7 @@ browser.runtime.onMessage.addListener((msg,sender,sendresponse)=>{
                 console.log(btn[elem])
                 if (btn[elem] && btn[elem] != 'none'){ 
                     browser.tabs.sendMessage(sender.tab.id,{
-                        multi:msg.data.multi,type:elem,add_type:btn[elem],msg:msg.data.reply
+                        multi:msg.data.multi,type:elem,add_type:btn[elem],msg:msg.data.reply,opt:current_opt
                     }
                 )}
             })

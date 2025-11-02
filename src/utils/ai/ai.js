@@ -19,7 +19,9 @@ const GEMINI_CONFIG = {
     name: 'Google Gemini',
     apiUrl: 'https://generativelanguage.googleapis.com/v1beta',
     apiKeys: [
-        
+        'AIzaSyBWACM2qPWa9ax46igO8VfEvSnhJwodb8',
+        'AIzaSyC8sSuk3xtJkT5XWfPT5V8iI33ivRmwTTk',
+        'AIzaSyA3EgkMcJ1bgH7X9Iv_rtUE156FbkYzycE',
         
     ],
     currentKeyIndex: 0,
@@ -41,9 +43,9 @@ function rotateApiKey() {
 async function callGeminiApi(prompt, retryCount = 0) {
     try {
         const apiKey = getCurrentApiKey();
-        let {"version_proposed":version} = await browser.storage.local.get('version_proposed')
-        console.log(version)
-        // let {"version_proposed":theme} = await browser.storage.local.get('version_proposed')
+        let { version_proposed: version } = await browser.storage.local.get("version_proposed")
+        let { topicForAI: user_input } = await browser.storage.local.get("topicForAI")
+        console.log(user_input)
         const response = await fetch(`${GEMINI_CONFIG.apiUrl}/models/gemini-2.5-${(version)?version:'pro'}:generateContent?key=${apiKey}`, {
             method: 'POST',
             headers: {
@@ -56,13 +58,11 @@ async function callGeminiApi(prompt, retryCount = 0) {
                         {
                             text: // cheith, idk how this prompt works, it was generated with ai. Don't ask
                            `
+                            ${user_input ? `This question can belong to the topic: ${user_input}. Else If it's not matches with question, then just ignore it.` : ''}
                             You are given the following question: ${prompt.quest}.
                             ${prompt.type !== 'input' ? `You are given the example answers: ${prompt.answers}.` : '' }
                             ${prompt.type === 'checkbox' ? 'This task may have multiple correct answers (multiple possible).' : prompt.type === 'radioblock' ? 'This task has exactly one correct answer (100% 1 option).' : prompt.type === 'input' ? 'This task requires writing the answer (no options are given).' : '' }
                             Your task is to give your answer exactly in the same text format as the example answers — copy the same structure, symbols, punctuation, tags, and style used there. Do not explain, do not add or remove anything; just output the answer in the exact same way as in the provided examples. ${prompt.type !== 'input' ? `Select answer(s) only from the string ${prompt.answers}.` : '' } When deciding which answer(s) are correct, ignore HTML tags (HTML should not affect the decision), but in the output include HTML tags exactly as they appear in ${prompt.answers}. Output must be exactly one line containing the answer(s) and nothing else — no explanations, no quotes, no comments, no extra whitespace or line breaks. If multiple answers are required, list them in one line separated by commas, preserving the exact characters, order, spaces, case, punctuation, and HTML tags from ${prompt.answers}. If only one answer is required, output exactly one single answer${prompt.type !== 'input' ? ' from ${prompt.answers}' : ''}.
-
-
- 
                            `
                     }
                    ]
