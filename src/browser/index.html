@@ -149,6 +149,18 @@
     text-align: center;
     margin-top: 1.5em;
   }
+  .custom-palette-design{
+    appearance: none;
+    -webkit-appearance: none;
+    border-radius: 50%;
+    border: 3px solid rgba(255,255,255,0.6);
+    width: 45px;
+    height: 45px;
+    cursor: pointer;
+    box-shadow: 0 0 8px rgba(0,0,0,0.25), inset 0 0 6px rgba(255,255,255,0.2);
+    transition: all .3s ease;
+    background: radial-gradient(circle at 30% 30%, #ffffff33, #00000011);
+  }
 </style>
 </head>
 
@@ -212,6 +224,13 @@
         <div class="checkbox-line">
           <input type="checkbox" id="bendy">
           <label for="bendy">Повернення Бенді</label>
+        </div>
+        <div>
+          <label for="palette-selector">Вибір кольору для підсвічення першої букви:</label>
+          <input type="color" id="palette-selector" class="custom-palette-design">
+          <br>
+          <input type="button" value="Скинути зміни" id="buttonClear">
+          <p id="first-letter">Після того як ви оберете колір, він буде позначати першу букву таким кольором.</p>
         </div>
       
     </div>

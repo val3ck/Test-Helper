@@ -81,4 +81,18 @@ browser.storage.local.get('bendy')
             }
         })
 })
-    
+browser.runtime.openOptionsPage()
+const col = document.getElementById("palette-selector")
+// browser.storage.local.get(parent.id)
+//     .then(resp=>{
+        // let color = "#00000081"
+        // if (resp != undefined) color = resp[col.id]
+        // col.value = color
+        // browser.storage.local.set({[col.id]:color})
+        
+        col.addEventListener('input',(ev)=>{
+            console.log(ev.target.value)
+            // browser.storage.local.set({[col.id]:col.value})
+
+        })
+    // })

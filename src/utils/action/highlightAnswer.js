@@ -1,21 +1,21 @@
 browser.runtime.onMessage.addListener(async (msg)=> {
     if (msg.type == 'button-highlight'){
-        let listOfAnswers = [] // preparing our values
-        let allanswers = []
-        let answer = msg.msg
-        let typehighlight = msg.add_type // looking at type of click(auto manual etc)
+        const answer = msg.msg
+        const typehighlight = msg.add_type // looking at type of click(auto manual etc)
+        const opt = msg.opt
+        const selectors = opt[window.location.host] || opt["naurok"]
+        let qselector = document.querySelectorAll(selectors.qselector)
         let lastColor = 'black';   
         console.log('highlight->active')
-        document.querySelectorAll('.test-options-grid p').forEach(p=>{
-            let text = p.outerHTML.replace(/\&nbsp;/g, '')
-            if (answer.includes(text)) listOfAnswers.push(p.offsetParent);
-            allanswers.push(p.offsetParent);
-        })
+        const listOfAnswers = Array.from(qselector).filter(
+            p=>answer.includes(
+                p.outerHTML.replace(/\&nbsp;/g, '')
+            )
+        )
         if (typehighlight == 'manual-highlight'){
-            allanswers.forEach(element=>{
+            listOfAnswers.forEach(element=>{
                 lastColor = element.style.background
-                console.log(element,listOfAnswers.includes(element))
-                if (listOfAnswers.includes(element)){
+                
                     console.log(element)
                     element.style.background = 'rgba(0, 255, 0, 0.5)';
                     element.style.animation = 'pulse 1.4s ease-in-out infinite';
@@ -27,7 +27,7 @@ browser.runtime.onMessage.addListener(async (msg)=> {
                             element.removeEventListener('click',clickRemEvent);
                     })
                 }
-            })
+            )
             // create <style> and adding keyframes
             const style = document.createElement('style')
             style.textContent = `
@@ -62,23 +62,20 @@ browser.runtime.onMessage.addListener(async (msg)=> {
             `
             document.head.appendChild(style)
         }else if (typehighlight == 'hidden-highlight'){
-            console.log(listOfAnswers)
-            allanswers.forEach(element=>{
-                if (listOfAnswers.includes(element)){
-                
-                    element.parentElement.classList.add('rightAnswer');
-                    document.addEventListener('click',function clickSearch(){
-                        element.parentElement.classList.remove('rightAnswer')
-                        element.removeEventListener('click',clickSearch)
-                    })}
+            listOfAnswers.forEach(element=>{
+                console.log(element)
+                element.parentElement.classList.add('rightAnswer');
+                document.addEventListener('click',function clickSearch(){
+                    element.parentElement.classList.remove('rightAnswer')
+                    element.removeEventListener('click',clickSearch)
+                })
             })
             const style = document.createElement('style')
             style.textContent = `
                 .rightAnswer p::first-letter {
-                    color: #0000009f;
+                    color: #00000081;
                 }
             `
             document.head.appendChild(style)
-    }
-    } 
+    }}
 })

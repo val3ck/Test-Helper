@@ -18,7 +18,7 @@ browser.runtime.onMessage.addListener(async (msg)=> {
         )
         if (typeclick=='manual'){ // if type click is on manual setting
             el.addEventListener('click',function clickEven(){
-                listOfAnswers.some(p=> // Holy yea, that worse 5k grn per year!
+                listOfAnswers.some(p=> // Holy yea, that worse 5k hrn per year!
                 {
                     p.click() 
                     listOfAnswers.splice(0,1)
@@ -29,7 +29,7 @@ browser.runtime.onMessage.addListener(async (msg)=> {
             })
         }
         else if (typeclick=='auto'){
-            listOfAnswers.forEach(p=> // Holy yea, that worse 5k grn per year!
+            listOfAnswers.forEach(p=> // Holy yea, that worse 5k hrn per year!
                 {
                     p.click()
                 }

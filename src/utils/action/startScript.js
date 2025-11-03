@@ -15,7 +15,7 @@ function parse(callback,screenshot){ // callback calls func when it's ready
     let node = document?.querySelectorAll('p')
     let arr = Array.from(node) // getting array to compare the last node and new (OBJS/NODES ALWAYS NEW, THEY CANNOT BE REPEATED)
         .filter((word)=>!word?.classList.contains("in-header"))
-    let screenshoto = arr.map(n => n.outerHTML).join('')
+    let screenshoto = arr.map(n => n.innerHTML).join('')
     // let images = document.querySelector(".test-content-image")
     if (arr.length<=1 || screenshot == screenshoto ){
         return screenshoto;
@@ -39,7 +39,7 @@ function parse(callback,screenshot){ // callback calls func when it's ready
         console.log('error')
         return screenshoto
     }
-    console.log(answer,question)
+    console.log(answer,question,testType)
     callback(answer,question,testType)
     return screenshoto
     

@@ -57,13 +57,31 @@ async function callGeminiApi(prompt, retryCount = 0) {
                     parts: [
                         {
                             text: // cheith, idk how this prompt works, it was generated with ai. Don't ask
-                           `
-                            ${user_input ? `This question can belong to the topic: ${user_input}. Else If it's not matches with question, then just ignore it.` : ''}
+                            `
+                            ${user_input ? `This question may belong to the topic: ${user_input}. If it does not match, ignore this hint.` : ''}
+
                             You are given the following question: ${prompt.quest}.
-                            ${prompt.type !== 'input' ? `You are given the example answers: ${prompt.answers}.` : '' }
-                            ${prompt.type === 'checkbox' ? 'This task may have multiple correct answers (multiple possible).' : prompt.type === 'radioblock' ? 'This task has exactly one correct answer (100% 1 option).' : prompt.type === 'input' ? 'This task requires writing the answer (no options are given).' : '' }
-                            Your task is to give your answer exactly in the same text format as the example answers — copy the same structure, symbols, punctuation, tags, and style used there. Do not explain, do not add or remove anything; just output the answer in the exact same way as in the provided examples. ${prompt.type !== 'input' ? `Select answer(s) only from the string ${prompt.answers}.` : '' } When deciding which answer(s) are correct, ignore HTML tags (HTML should not affect the decision), but in the output include HTML tags exactly as they appear in ${prompt.answers}. Output must be exactly one line containing the answer(s) and nothing else — no explanations, no quotes, no comments, no extra whitespace or line breaks. If multiple answers are required, list them in one line separated by commas, preserving the exact characters, order, spaces, case, punctuation, and HTML tags from ${prompt.answers}. If only one answer is required, output exactly one single answer${prompt.type !== 'input' ? ' from ${prompt.answers}' : ''}.
-                           `
+                            ${prompt.testType !== 'input' ? `You are given the example answers: ${prompt.answers}.` : ''}
+
+                            ${prompt.testType === 'radioblock'
+                            ? 'This task has exactly one correct answer — only one of the provided options is correct. You must output exactly one answer, no more and no less.'
+                            : prompt.testType === 'checkbox'
+                            ? 'This task may have several correct answers — output all correct answers separated by commas, keeping the same HTML structure, tags, and punctuation.'
+                            : 'This task requires writing your own short text answer — no options are provided.'}
+
+                            Your response must:
+                            - Contain **only** the answer(s), nothing else (no explanations, no quotes, no line breaks, no commentary).
+                            - Copy the **exact format**, **HTML tags**, and **symbols** used in ${prompt.answers}.
+                            - When deciding which answer(s) are correct, ignore HTML tags (they don’t affect correctness).
+                            - Always preserve the **original tags** (<p>, <strong>, etc.) in the final output.
+                            - Output must be a **single line**.
+
+                            ${prompt.testType === 'radioblock'
+                            ? 'Important: output exactly ONE of the provided answers, even if multiple seem correct.'
+                            : prompt.testType === 'checkbox'
+                            ? 'Important: output ALL correct answers if there are multiple, joined by commas.'
+                            : ''}
+                            `
                     }
                    ]
                 }]
