@@ -11,6 +11,23 @@ document.querySelectorAll("input[type='checkbox']").forEach(checkbx => {
             }) // setting last recorded state
         })
 });
+// setting select options
+/* pseudocode
+getAllSelects()
+    .forEachSelect(select=>
+        look_in_storage(select->id)
+        if result_look_in_storage == undefined
+            keep -> last_value // keep is bool
+        else
+            keep -> value_in_storage // keep is bool
+        set_checkbox_state(keep) 
+        set_value_inStorage(keep) // we're setting value, to be sure, that it will be in local data
+        looking_for_clicks(
+            click -> setValue.checked // we're looking if input is checked 
+            saving_toStorage(click)
+            )
+    )       
+*/
 let options = document.querySelectorAll('select') 
     .forEach(result=>{
         let id = result.id
@@ -52,7 +69,7 @@ document.getElementById("buttonClear").addEventListener('click',()=>{
 document.getElementById("buttonAccept").addEventListener('click',()=>{
     browser.storage.local.set({topicForAI:document.getElementById("helpInput").value})
 })
-
+// applying style to BENDY
 function applyBackground(value){
     let body = document.querySelector('body');
     body.style.background = 'var(--bg-main)';   
@@ -66,10 +83,13 @@ function applyBackground(value){
         body.style.backgroundImage = "url('photo_2025-10-09_19-07-40.jpg')";
         body.style.backgroundRepeat = 'no-repeat';
         body.style.backgroundSize = 'cover';
-        body.style.backgroundPosition = 'center center';
+        body.style.backgroundPosition = 'center';
+        body.style.backgroundAttachment = 'fixed';
+        body.style.height = '100vh';
+        body.style.margin = '0';
     }
 }
-
+// bendy checkbox
 browser.storage.local.get('bendy')
     .then(resp=>{
         applyBackground(resp['bendy'])
@@ -81,18 +101,29 @@ browser.storage.local.get('bendy')
             }
         })
 })
-browser.runtime.openOptionsPage()
-const col = document.getElementById("palette-selector")
-// browser.storage.local.get(parent.id)
-//     .then(resp=>{
-        // let color = "#00000081"
-        // if (resp != undefined) color = resp[col.id]
-        // col.value = color
-        // browser.storage.local.set({[col.id]:color})
+// const sys = document.getElementById("sysuser");
+// sys.innerText = sys.innerText +'  '+ navigator.userAgent
+const parent = document.getElementById("palette-selector");
+// working with pallete
+browser.storage.local.get(parent.id)
+    .then(resp=>{
+        let color = "#00000081"
         
-        col.addEventListener('input',(ev)=>{
-            console.log(ev.target.value)
-            // browser.storage.local.set({[col.id]:col.value})
-
+        if (resp != undefined) color = resp[parent.id]
+        parent.value = color
+        console.log(parent)
+        browser.storage.local.set({[parent.id]:color})
+        parent.addEventListener('input',(ev)=>{
+            browser.storage.local.set({[parent.id]:ev.target.value})
         })
-    // })
+    })
+//button which clears color pallete
+document.querySelector("#buttonClears").addEventListener("click",()=>{
+    let color = "#00000081"
+    parent.value = color
+    browser.storage.local.set({[parent.id]:color})
+})
+//looking for clickss
+document.querySelector("#check_pc_vers").addEventListener('click',()=>{
+    browser.runtime.openOptionsPage()
+})

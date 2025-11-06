@@ -6,6 +6,8 @@ browser.runtime.onMessage.addListener(async (msg)=> {
         const selectors = opt[window.location.host] || opt["naurok"]
         let qselector = document.querySelectorAll(selectors.qselector)
         let lastColor = 'black';   
+
+        
         console.log('highlight->active')
         const listOfAnswers = Array.from(qselector).filter(
             p=>answer.includes(
@@ -63,19 +65,21 @@ browser.runtime.onMessage.addListener(async (msg)=> {
             document.head.appendChild(style)
         }else if (typehighlight == 'hidden-highlight'){
             listOfAnswers.forEach(element=>{
-                console.log(element)
                 element.parentElement.classList.add('rightAnswer');
                 document.addEventListener('click',function clickSearch(){
                     element.parentElement.classList.remove('rightAnswer')
                     element.removeEventListener('click',clickSearch)
                 })
             })
+            let color = await browser.storage.local.get("palette-selector") // browser.runtimee.onMessage.addListener(async (msg)) we got async func so we can use it
+            if (!color) color = "#00000081";
             const style = document.createElement('style')
             style.textContent = `
                 .rightAnswer p::first-letter {
-                    color: #00000081;
+                    color: ${color["palette-selector"]};
                 }
             `
             document.head.appendChild(style)
+            
     }}
 })
